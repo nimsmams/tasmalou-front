@@ -1,0 +1,44 @@
+<h1>Page administrateur</h1>
+<form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="product_name" class="form-label">Product Name</label>
+      <input id="product_name" type="text" [(ngModel)]="product_name" name="product_name" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label for="latin_name" class="form-label">Nom Latin</label>
+      <input id="latin_name" type="text" [(ngModel)]="latin_name" name="latin_name" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label for="description" class="description">Description</label>
+      <input id="description" type="text" [(ngModel)]="description" name="Description" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="plant_section" class="plant_section">plant section</label>
+        <input id="plant_section" type="text" [(ngModel)]="plant_section" name="plant_section" class="form-control"/>
+      </div>
+    <div class="mb-3">
+        <label for="family" class="family">family</label>
+        <input id="family" type="text" [(ngModel)]="family" name="family" class="form-control"/>
+      </div>
+  
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+ <!--mettre un truc comme ca:
+<form (ngSubmit)="handleSubmit()">
+    <label>Share your thoughts
+        <textarea name="content" [(ngModel)]="post.content"></textarea>
+    </label>
+    <button>Post</button>
+</form> -->
+<!-- <form (ngSubmit)="adminSubmit()">
+    
+    <label>
+        name
+        <input type="text" required [(ngModel)]="credentials.email" name="email">
+    </label>
+    <label>
+        latinname
+        <input type="password" required [(ngModel)]="credentials.password" name="password">
+    </label>
+    <button>Login</button>
+</form> -->

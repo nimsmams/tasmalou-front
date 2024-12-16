@@ -1,0 +1,43 @@
+<h1>Register</h1>
+
+<form (ngSubmit)="handleSubmit()">
+  <label>
+    Email
+    <input type="email" required [(ngModel)]="user.email" name="email" />
+  </label>
+  <label>
+    Password
+    <input
+      type="password"
+      required
+      [(ngModel)]="user.password"
+      name="password"
+    />
+  </label>
+  <label>
+    firstname
+    <input type="text" required [(ngModel)]="user.firstname" name="firstname" />
+  </label>
+  <label>
+    lastname
+    <input type="text" required [(ngModel)]="user.lastname" name="lastname" />
+  </label>
+  <label>
+    age
+    <input type="date" required [(ngModel)]="user.age" name="age" />
+  </label>
+  <label> gender </label>
+  <select name="gender" [(ngModel)]="user.gender">
+    <option [value]="g[0].gender">
+      {{ g[0].gender }}
+    </option>
+    <option [value]="g[1].gender">
+      {{ g[1].gender }}
+    </option>
+    <option [value]="g[2].gender" selected>
+      {{ g[2].gender }}
+    </option>
+  </select>
+
+  <button>Register</button>
+</form>

@@ -1,0 +1,17 @@
+<h1>Login</h1>
+
+<form (ngSubmit)="handleSubmit()">
+    
+    @if(feedback) {
+        <p>{{feedback}}</p>
+    }
+    <label>
+        Email
+        <input type="text" required [(ngModel)]="credentials.email" name="email">
+    </label>
+    <label>
+        Password
+        <input type="password" required [(ngModel)]="credentials.password" name="password">
+    </label>
+    <button>Login</button>
+</form>
