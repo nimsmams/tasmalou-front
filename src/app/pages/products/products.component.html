@@ -1,0 +1,13 @@
+<div class="product-list">
+    <!-- Itérer sur les produits avec *ngFor -->
+    <div *ngFor="let product of product" class="product-card">
+      <img class="product-image" [src]="'/assets/images/plantago_lanceolata.jpg' + product.image_path" alt="{{ product.product_name }}">
+      <div class="product-info">
+        <h3>{{ product.product_name }}</h3>
+        <p><strong>Nom latin : </strong>{{ product.latin_name }}</p>
+        <p><strong>Description : </strong>{{ product.description }}</p>
+        <p><strong>Section : </strong>{{ product.plant_section }}</p>
+        <p><strong>Famille : </strong>{{ product.family }}</p>
+      </div>
+    </div>
+  </div>

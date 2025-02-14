@@ -42,6 +42,8 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+
+
   isAdmin(): boolean {
     const user = this.connectedUser();
     // Assuming the role is stored in a property called 'role' in the user object

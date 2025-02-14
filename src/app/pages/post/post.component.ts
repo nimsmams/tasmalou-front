@@ -6,7 +6,7 @@ import { AuthService } from '../../auth.service';
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [RouterLink, RouterModule, AddPostComponent, PostComponent],
+  imports: [RouterLink, RouterModule, AddPostComponent],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css'
 })

@@ -9,12 +9,13 @@ export interface User {
   role: string;
 }
 
-export interface Post {
+export interface Product {
   id?: number;
   product_name: string;
   latin_name: string;
   description: string;
   plant_section: string;
   family: string;
+  image_path:string;
   }
 

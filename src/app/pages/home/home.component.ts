@@ -6,7 +6,7 @@ import { AddPostComponent } from '../../add-post/add-post.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterModule, RouterLink, AddPostComponent],
+  imports: [RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

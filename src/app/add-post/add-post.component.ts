@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Post } from '../entities';
-import { PostService } from '../post.service';
+import { Product } from '../entities';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-add-post',
   standalone: true,
-  imports: [FormsModule, AddPostComponent],
+  imports: [FormsModule],
   templateUrl: './add-post.component.html',
-  styleUrl: './add-post.component.css'
+  styleUrl: './add-post.component.css',
 })
 export class AddPostComponent {
-  
-  constructor(private postService:PostService){}
+  constructor(private productService: ProductService) {}
 
-  post:Post = {
+  product: Product = {
     product_name: '',
     latin_name: '',
     description: '',
-    plant_section:'',
-    family:''
-  }
+    plant_section: '',
+    family: '',
+    image_path:'',
+  };
 
   handleSubmit() {
-    this.postService.create(this.post).subscribe(() => alert('bravo'))
+    this.productService.create(this.product).subscribe(() => alert('bravo'));
   }
 }

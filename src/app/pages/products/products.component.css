@@ -1,0 +1,62 @@
+/* Style global pour la liste des produits */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+  margin: 20px;
+} /*Utilise Flexbox pour organiser les cartes de produits en ligne. Les produits s'afficheront dans une grille flexible, et l'option gap assure qu'il y ait un espace entre les cartes.*/
+
+/* Style pour chaque carte produit */
+.product-card {
+  width: 100%;
+  max-width: 300px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}/*Chaque carte a un fond blanc, un contour léger, et une bordure arrondie. Il y a également une légère ombre portée pour donner un effet de profondeur.*/
+
+/* Style pour l'image */
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;  /* Assurez-vous que l'image couvre bien l'espace sans déformation */
+  border-bottom: 2px solid #eee;  /* Légère séparation entre l'image et le contenu */
+}/*L'image s'ajuste pour remplir la largeur de la carte tout en conservant ses proportions avec object-fit: cover. Cela évite la déformation de l'image.*/
+
+/* Style pour le texte du produit */
+.product-info {
+  padding: 16px;
+}/*Contient les informations de chaque produit. Le texte est espacé et chaque élément (nom, description, etc.) est bien lisible.*/
+
+.product-info h3 {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.product-info p {
+  margin: 4px 0;
+}
+
+/* Ajouter une surbrillance lors du survol */
+.product-card:hover {
+  transform: translateY(-5px);  /* Décale légèrement la carte vers le haut */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}/*Lorsqu'un utilisateur survole la carte, un effet d'ombre et de translation (décalage) apparaît pour donner un effet interactif.*/
+
+/* Pour rendre le design responsive/ L'affichage devient responsive. Sur des écrans plus petits, les cartes s'adaptent pour occuper toute la largeur disponible. */
+@media (max-width: 768px) {
+  .product-card {
+    max-width: 100%;  /* Les cartes occuperont toute la largeur sur petits écrans */
+  }
+}
+
+@media (max-width: 480px) {
+  .product-card {
+    max-width: 100%;
+    margin: 0 auto;  /* Centrer les cartes sur très petits écrans */
+  }
+}

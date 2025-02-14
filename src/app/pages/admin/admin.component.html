@@ -20,6 +20,12 @@
         <label for="family" class="family">family</label>
         <input id="family" type="text" [(ngModel)]="family" name="family" class="form-control"/>
       </div>
+
+      <div class="mb-3">
+        <label for="image_path" class="image_path">image</label>
+        <input id="image_path" type="text" [(ngModel)]="image_path" name="image_path" class="form-control"/>
+      </div>
+      <img *ngIf="image_path" [src]="image_path" alt="Aperçu de l'image" class="img-preview"/>
   
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
