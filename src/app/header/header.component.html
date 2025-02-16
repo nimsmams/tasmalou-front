@@ -1,16 +1,14 @@
 <header>
-    <nav>
-      <h1>Mon Application</h1>
+  <nav>
+      <h1>TALOO</h1>
       <ul>
-        <a class="nav-link" routerLink="/home">Accueil</a>
-        <a class="nav-link" routerLink="/login">login</a>
-        <a class="nav-link" routerLink="/register">Register</a>
-        <a class="nav-link" routerLink="/plants">Plantes</a>
-        <a class="nav-link" routerLink="/besoins">Vos besoins</a>
-        <ng-container *ngIf="isLoggedIn">
-            <i class="fa fa-user" aria-hidden="true"></i> <!-- Exemple d'icône utilisateur -->
-            <button (click)="logout()">Se déconnecter</button> <!-- Bouton pour se déconnecter -->
-          </ng-container>
+          <a class="nav-link" routerLink="/home">Accueil</a>
+          <a class="nav-link" routerLink="/plants">Plantes</a>
+          <a class="nav-link" routerLink="/besoins">Vos besoins</a>
       </ul>
-    </nav>
-  </header>
+      <!-- Bouton Login aligné à droite -->
+      <a class="login-icon" routerLink="/login">
+          <i class="fa-solid fa-user"></i>
+      </a>
+  </nav>
+</header>

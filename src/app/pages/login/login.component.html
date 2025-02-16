@@ -1,5 +1,15 @@
 <h1>Login</h1>
 
+
+<!--Si l'utilisateur est connecté, afficher le bouton "Se déconnecter" -->
+
+<div *ngIf="isLoggedIn">
+    <p>Vous êtes déjà connecté.</p>
+    <button (click)="logout()">Se déconnecter</button>
+  </div>
+
+  <!-- Formulaire de connexion affiché seulement si l'utilisateur n'est PAS connecté -->
+
 <form (ngSubmit)="handleSubmit()">
     
     @if(feedback) {
@@ -15,3 +25,9 @@
     </label>
     <button>Login</button>
 </form>
+
+<!-- Message sous le formulaire -->
+<p *ngIf="!isLoggedIn">
+    Vous n'avez pas de compte ? 
+    <a routerLink="/register">Créez un compte</a>.
+  </p>

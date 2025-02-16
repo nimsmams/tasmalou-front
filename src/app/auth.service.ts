@@ -49,4 +49,9 @@ export class AuthService {
     // Assuming the role is stored in a property called 'role' in the user object
     return user?.role === 'ADMIN';
   }
+
+  isAuthenticated(): boolean {
+    return this.connectedUser() !== null; // Vérifie si un utilisateur est connecté
+  }
+  
 }
