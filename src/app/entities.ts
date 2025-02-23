@@ -17,5 +17,13 @@ export interface Product {
   plant_section: string;
   family: string;
   image_path:string;
+  category_ids: number[];//tableau d'IDs de categories
+  }
+
+  export interface Category {
+    id: number;
+    category_name: string;
+    description: string;
+    parent_id?: number; 
   }
 

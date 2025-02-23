@@ -29,6 +29,7 @@ export class AuthService {
       )
       .pipe(
         tap((data) => {
+          console.log('reponse API login:', data);
           localStorage.setItem('token', data.token); //On stock le token en localStorage
           localStorage.setItem('connectedUser', JSON.stringify(data.user));
           this.connectedUser.set(data.user);

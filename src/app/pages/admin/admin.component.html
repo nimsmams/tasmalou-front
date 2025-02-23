@@ -26,8 +26,33 @@
         <input id="image_path" type="text" [(ngModel)]="image_path" name="image_path" class="form-control"/>
       </div>
       <img *ngIf="image_path" [src]="image_path" alt="Aperçu de l'image" class="img-preview"/>
+
+       <!-- Sélection multiple des catégories -->
+  <div class="mb-3">
+    <label for="category" class="form-label">Catégories</label>
+    <select id="category" [(ngModel)]="category_ids" name="category_ids" class="form-control" multiple>
+      <option *ngFor="let cat of categories" [value]="cat.id">{{cat.category_name}}</option>
+    </select>
+  </div>
+
+      <!-- Ajouter une nouvelle catégorie -->
+  <h2>Ajouter une nouvelle catégorie</h2>
+  <div class="mb-3">
+    <label for="newCategoryName" class="form-label">Nom de la catégorie</label>
+    <input id="newCategoryName" type="text" [(ngModel)]="newCategoryName" name="newCategoryName" class="form-control"/>
+  </div>
+  <div class="mb-3">
+    <label for="newCategoryDescription" class="form-label">Description</label>
+    <input id="newCategoryDescription" type="text" [(ngModel)]="newCategoryDescription" name="newCategoryDescription" class="form-control"/>
+  </div>
+  <button (click)="addCategory()" class="btn btn-success">Ajouter Catégorie</button>
+
+
+<button (click)="addCategory()" class="btn btn-success">Ajouter Catégorie</button>
   
     <button type="submit" class="btn btn-primary">Submit</button>
+
+
   </form>
  <!--mettre un truc comme ca:
 <form (ngSubmit)="handleSubmit()">

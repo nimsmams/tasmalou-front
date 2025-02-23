@@ -14,6 +14,7 @@ export class ProductService {
       product
     );
   }
+
   get(id: number) {
     return this.http.get<Product>('http://localhost:3000/api/product');
   }
@@ -26,6 +27,14 @@ export class ProductService {
     return this.http.get<Product[]>('http://localhost:3000/product/getAll');
   }
   
+  addCategory(category: { category_name: string; description: string; parent_id?: number }) {
+    return this.http.post('http://localhost:3000/category/add', category);
+  }
+
+  getAllCategories() {
+    return this.http.get('http://localhost:3000/category/getAll');
+  }
+
   /*getOne(get:Post) {
     return this.http.get<Post>('http://localhost:3000/post/getpost/:id', get);
   }

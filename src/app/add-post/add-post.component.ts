@@ -20,6 +20,7 @@ export class AddPostComponent {
     plant_section: '',
     family: '',
     image_path:'',
+    category_ids: []
   };
 
   handleSubmit() {
