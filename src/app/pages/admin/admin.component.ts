@@ -7,11 +7,12 @@ import { Product } from '../../entities';
 import { AdminAuthGuard } from '../../guards/admin.guard';
 
 import { CategoryService } from '../../category.service';  // Service pour les catégories
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css',
 })
@@ -45,7 +46,7 @@ export class AdminComponent implements OnInit{
   }
 
 
-  onSubmit() {
+  addProduct() {
       const newPost: Product = {
       product_name: this.product_name,
       latin_name: this.latin_name,
@@ -84,15 +85,12 @@ export class AdminComponent implements OnInit{
 
     this.categoryService.addCategory(newCategory).subscribe({
       next: (res) => {
-        console.log('Catégorie ajoutée :', res);
-        alert('Catégorie ajoutée avec succès !');
         this.newCategoryName = '';
         this.newCategoryDescription = '';
         this.loadCategories();
       },
       error: (err) => {
         console.error('Erreur lors de l’ajout de la catégorie :', err);
-        alert('Erreur lors de l’ajout de la catégorie.');
       },
     });
   }

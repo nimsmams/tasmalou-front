@@ -1,21 +1,26 @@
 <h1>Page administrateur</h1>
-<form (ngSubmit)="onSubmit()">
+<form>
+
     <div class="mb-3">
       <label for="product_name" class="form-label">Product Name</label>
       <input id="product_name" type="text" [(ngModel)]="product_name" name="product_name" class="form-control" />
     </div>
+
     <div class="mb-3">
       <label for="latin_name" class="form-label">Nom Latin</label>
       <input id="latin_name" type="text" [(ngModel)]="latin_name" name="latin_name" class="form-control" />
     </div>
+
     <div class="mb-3">
       <label for="description" class="description">Description</label>
       <input id="description" type="text" [(ngModel)]="description" name="Description" class="form-control"/>
     </div>
+
     <div class="mb-3">
         <label for="plant_section" class="plant_section">plant section</label>
         <input id="plant_section" type="text" [(ngModel)]="plant_section" name="plant_section" class="form-control"/>
       </div>
+
     <div class="mb-3">
         <label for="family" class="family">family</label>
         <input id="family" type="text" [(ngModel)]="family" name="family" class="form-control"/>
@@ -25,7 +30,10 @@
         <label for="image_path" class="image_path">image</label>
         <input id="image_path" type="text" [(ngModel)]="image_path" name="image_path" class="form-control"/>
       </div>
-      <img *ngIf="image_path" [src]="image_path" alt="Aperçu de l'image" class="img-preview"/>
+
+      <img [src]="image_path" alt="Aperçu de l'image" class="img-preview"/>
+
+      <button (click)="addProduct()" class="btn btn-success">Ajouter un produit</button>
 
        <!-- Sélection multiple des catégories -->
   <div class="mb-3">
@@ -37,22 +45,27 @@
 
       <!-- Ajouter une nouvelle catégorie -->
   <h2>Ajouter une nouvelle catégorie</h2>
+
   <div class="mb-3">
     <label for="newCategoryName" class="form-label">Nom de la catégorie</label>
     <input id="newCategoryName" type="text" [(ngModel)]="newCategoryName" name="newCategoryName" class="form-control"/>
   </div>
+
   <div class="mb-3">
     <label for="newCategoryDescription" class="form-label">Description</label>
     <input id="newCategoryDescription" type="text" [(ngModel)]="newCategoryDescription" name="newCategoryDescription" class="form-control"/>
   </div>
-  <button (click)="addCategory()" class="btn btn-success">Ajouter Catégorie</button>
 
+  <div class="mb-3">
+    <label for="category" class="form-label">Catégories Parent</label>
+    <select id="category" [(ngModel)]="category_ids" name="category_ids" class="form-control" multiple>
+      <option *ngFor="let cat of categories" [value]="cat.id">{{cat.category_name}}</option>
+    </select>
+  </div>
 
-<button (click)="addCategory()" class="btn btn-success">Ajouter Catégorie</button>
   
-    <button type="submit" class="btn btn-primary">Submit</button>
-
-
+  <button (click)="addCategory()" class="btn btn-success">Ajouter Catégorie</button>
+  
   </form>
  <!--mettre un truc comme ca:
 <form (ngSubmit)="handleSubmit()">
