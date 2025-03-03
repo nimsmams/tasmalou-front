@@ -1,72 +1,83 @@
-<h1>Page administrateur</h1>
-<form>
+<h1>Page Administrateur</h1>
 
+<form>
+  <!-- Formulaire Ajouter un Produit -->
+  <fieldset>
+    <legend>Ajouter un Produit</legend>
     <div class="mb-3">
-      <label for="product_name" class="form-label">Product Name</label>
-      <input id="product_name" type="text" [(ngModel)]="product_name" name="product_name" class="form-control" />
+      <label for="product_name" class="form-label">Nom du Produit</label>
+      <input id="product_name" type="text" [(ngModel)]="product_name" name="product_name" class="form-control" required />
     </div>
 
     <div class="mb-3">
       <label for="latin_name" class="form-label">Nom Latin</label>
-      <input id="latin_name" type="text" [(ngModel)]="latin_name" name="latin_name" class="form-control" />
+      <input id="latin_name" type="text" [(ngModel)]="latin_name" name="latin_name" class="form-control" required />
     </div>
 
     <div class="mb-3">
-      <label for="description" class="description">Description</label>
-      <input id="description" type="text" [(ngModel)]="description" name="Description" class="form-control"/>
+      <label for="description" class="form-label">Description</label>
+      <textarea id="description" [(ngModel)]="description" name="description" class="form-control" required></textarea>
     </div>
 
     <div class="mb-3">
-        <label for="plant_section" class="plant_section">plant section</label>
-        <input id="plant_section" type="text" [(ngModel)]="plant_section" name="plant_section" class="form-control"/>
-      </div>
+      <label for="plant_section" class="form-label">Section</label>
+      <input id="plant_section" type="text" [(ngModel)]="plant_section" name="plant_section" class="form-control" required />
+    </div>
 
     <div class="mb-3">
-        <label for="family" class="family">family</label>
-        <input id="family" type="text" [(ngModel)]="family" name="family" class="form-control"/>
+      <label for="family" class="form-label">Famille</label>
+      <input id="family" type="text" [(ngModel)]="family" name="family" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="image_path" class="form-label">Image</label>
+      <input id="image_path" type="text" [(ngModel)]="image_path" name="image_path" class="form-control" required />
+    </div>
+
+    <img *ngIf="image_path" [src]="image_path" alt="Aperçu de l'image" class="img-preview" style="max-width: 200px; max-height: 200px; object-fit: cover;" />
+
+    <button type="button" (click)="addProduct()" class="btn btn-success">Ajouter Produit</button>
+  </fieldset>
+
+  <!-- Formulaire Ajouter une Catégorie -->
+  <fieldset>
+    <legend>Ajouter une Catégorie</legend>
+    <div class="mb-3">
+      <label for="newCategoryName" class="form-label">Nom de la Catégorie</label>
+      <input id="newCategoryName" type="text" [(ngModel)]="newCategoryName" name="newCategoryName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="newCategoryDescription" class="form-label">Description</label>
+      <textarea id="newCategoryDescription" [(ngModel)]="newCategoryDescription" name="newCategoryDescription" class="form-control" required></textarea>
+    </div>
+
+    <button type="button" (click)="addCategory()" class="btn btn-success">Ajouter Catégorie</button>
+  </fieldset>
+
+  <!-- Sélection des Catégories pour le Produit -->
+  <fieldset>
+    <legend>Catégories du Produit</legend>
+    <div *ngFor="let category of categories">
+      <!-- Affichage des catégories principales avec indentation pour enfants -->
+      <div *ngIf="!category.parent_id">
+        <div [style.marginLeft]="category.level * 20 + 'px'">
+          <input type="checkbox" [(ngModel)]="selectedCategories" [value]="category.id" id="category-{{ category.id }}" name="category_ids" />
+          <label for="category-{{ category.id }}">{{ category.category_name }}</label>
+        </div>
+
+        <!-- Affichage des sous-catégories de cette catégorie -->
+        <div *ngFor="let child of category.children">
+          <div [style.marginLeft]="(category.level + 1) * 20 + 'px'">
+            <input type="checkbox" [(ngModel)]="selectedCategories" [value]="child.id" id="category-{{ child.id }}" name="category_ids" />
+            <label for="category-{{ child.id }}">{{ child.category_name }}</label>
+          </div>
+        </div>
       </div>
+    </div>
+  </fieldset>
+</form>
 
-      <div class="mb-3">
-        <label for="image_path" class="image_path">image</label>
-        <input id="image_path" type="text" [(ngModel)]="image_path" name="image_path" class="form-control"/>
-      </div>
-
-      <img [src]="image_path" alt="Aperçu de l'image" class="img-preview"/>
-
-      <button (click)="addProduct()" class="btn btn-success">Ajouter un produit</button>
-
-       <!-- Sélection multiple des catégories -->
-  <div class="mb-3">
-    <label for="category" class="form-label">Catégories</label>
-    <select id="category" [(ngModel)]="category_ids" name="category_ids" class="form-control" multiple>
-      <option *ngFor="let cat of categories" [value]="cat.id">{{cat.category_name}}</option>
-    </select>
-  </div>
-
-      <!-- Ajouter une nouvelle catégorie -->
-  <h2>Ajouter une nouvelle catégorie</h2>
-
-  <div class="mb-3">
-    <label for="newCategoryName" class="form-label">Nom de la catégorie</label>
-    <input id="newCategoryName" type="text" [(ngModel)]="newCategoryName" name="newCategoryName" class="form-control"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="newCategoryDescription" class="form-label">Description</label>
-    <input id="newCategoryDescription" type="text" [(ngModel)]="newCategoryDescription" name="newCategoryDescription" class="form-control"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="category" class="form-label">Catégories Parent</label>
-    <select id="category" [(ngModel)]="category_ids" name="category_ids" class="form-control" multiple>
-      <option *ngFor="let cat of categories" [value]="cat.id">{{cat.category_name}}</option>
-    </select>
-  </div>
-
-  
-  <button (click)="addCategory()" class="btn btn-success">Ajouter Catégorie</button>
-  
-  </form>
  <!--mettre un truc comme ca:
 <form (ngSubmit)="handleSubmit()">
     <label>Share your thoughts

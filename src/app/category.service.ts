@@ -19,4 +19,16 @@ export class CategoryService {
   addCategory(category: { category_name: string; description: string }) {
     return this.http.post(`${this.baseUrl}/add`, category);
   }
+
+  // Mettre à jour une catégorie
+updateCategory(id: number, category: { category_name: string; description: string; parent_id?: number }) {
+  return this.http.put(`${this.baseUrl}/update/${id}`, category);
+}
+// Supprimer une catégorie
+deleteCategory(id: number) {
+  return this.http.delete(`${this.baseUrl}/delete/${id}`);
+}
+
+
+
 }
