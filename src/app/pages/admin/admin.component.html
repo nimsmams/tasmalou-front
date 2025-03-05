@@ -1,9 +1,9 @@
 <h1>Page Administrateur</h1>
 
 <form>
-  <!-- Formulaire Ajouter un Produit -->
+  <!-- Formulaire Ajouter ou Modifier un Produit -->
   <fieldset>
-    <legend>Ajouter un Produit</legend>
+    <legend>{{ currentProductId ? 'Modifier un Produit' : 'Ajouter un Produit' }}</legend>
     <div class="mb-3">
       <label for="product_name" class="form-label">Nom du Produit</label>
       <input id="product_name" type="text" [(ngModel)]="product_name" name="product_name" class="form-control" required />
@@ -36,7 +36,30 @@
 
     <img *ngIf="image_path" [src]="image_path" alt="Aperçu de l'image" class="img-preview" style="max-width: 200px; max-height: 200px; object-fit: cover;" />
 
-    <button type="button" (click)="addProduct()" class="btn btn-success">Ajouter Produit</button>
+    <!-- Sélection des Catégories pour le Produit -->
+    <fieldset>
+      <legend>Catégories du Produit</legend>
+      <div *ngFor="let category of categories">
+        <!-- Affichage des catégories principales avec indentation pour enfants -->
+        <div *ngIf="!category.parent_id">
+          <div [style.marginLeft]="category.level * 20 + 'px'">
+            <input type="checkbox" [(ngModel)]="selectedCategories" [value]="category.id" id="category-{{ category.id }}" name="category_ids" />
+            <label for="category-{{ category.id }}">{{ category.category_name }}</label>
+          </div>
+
+          <!-- Affichage des sous-catégories de cette catégorie -->
+          <div *ngFor="let child of category.children">
+            <div [style.marginLeft]="(category.level + 1) * 20 + 'px'">
+              <input type="checkbox" [(ngModel)]="selectedCategories" [value]="child.id" id="category-{{ child.id }}" name="category_ids" />
+              <label for="category-{{ child.id }}">{{ child.category_name }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <button type="button" (click)="addProduct()" class="btn btn-success">{{ currentProductId ? 'Mettre à Jour' : 'Ajouter Produit' }}</button>
+    <button *ngIf="currentProductId" type="button" (click)="deleteProduct(currentProductId)" class="btn btn-danger">Supprimer le Produit</button>
   </fieldset>
 
   <!-- Formulaire Ajouter une Catégorie -->
@@ -52,29 +75,28 @@
       <textarea id="newCategoryDescription" [(ngModel)]="newCategoryDescription" name="newCategoryDescription" class="form-control" required></textarea>
     </div>
 
+    <!-- Champ pour choisir une catégorie parente -->
+    <div class="mb-3">
+      <label for="parentCategory" class="form-label">Catégorie Parente</label>
+      <select id="parentCategory" [(ngModel)]="selectedParentCategoryId" name="parentCategory" class="form-control">
+        <option value="" disabled>Sélectionner une catégorie parente (facultatif)</option>
+        <option *ngFor="let category of categories" [value]="category.id">{{ category.category_name }}</option>
+      </select>
+    </div>
+
     <button type="button" (click)="addCategory()" class="btn btn-success">Ajouter Catégorie</button>
   </fieldset>
 
-  <!-- Sélection des Catégories pour le Produit -->
+  <!-- Liste des catégories existantes avec modification et suppression -->
   <fieldset>
-    <legend>Catégories du Produit</legend>
-    <div *ngFor="let category of categories">
-      <!-- Affichage des catégories principales avec indentation pour enfants -->
-      <div *ngIf="!category.parent_id">
-        <div [style.marginLeft]="category.level * 20 + 'px'">
-          <input type="checkbox" [(ngModel)]="selectedCategories" [value]="category.id" id="category-{{ category.id }}" name="category_ids" />
-          <label for="category-{{ category.id }}">{{ category.category_name }}</label>
-        </div>
-
-        <!-- Affichage des sous-catégories de cette catégorie -->
-        <div *ngFor="let child of category.children">
-          <div [style.marginLeft]="(category.level + 1) * 20 + 'px'">
-            <input type="checkbox" [(ngModel)]="selectedCategories" [value]="child.id" id="category-{{ child.id }}" name="category_ids" />
-            <label for="category-{{ child.id }}">{{ child.category_name }}</label>
-          </div>
-        </div>
-      </div>
-    </div>
+    <legend>Liste des Catégories</legend>
+    <ul>
+      <li *ngFor="let category of categories">
+        {{ category.category_name }}
+        <button type="button" (click)="updateCategory(category)" class="btn btn-warning">Modifier</button>
+        <button type="button" (click)="deleteCategory(category.id)" class="btn btn-danger">Supprimer</button>
+      </li>
+    </ul>
   </fieldset>
 </form>
 

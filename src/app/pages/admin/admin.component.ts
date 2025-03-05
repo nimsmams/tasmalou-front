@@ -27,14 +27,13 @@ export class AdminComponent implements OnInit{
   family = '';
   image_path = '';
   category_ids: number[] = [];  // Tableau pour gérer plusieurs catégories
-
-
   categories: any[] = []; // Stocker les catégories
   newCategoryName = '';
   newCategoryDescription = '';
-
   selectedCategories: number[] = []; // Pour stocker les ID des catégories sélectionnées
   selectedParentCategoryId: number | null = null; // Pour stocker l'ID du parent sélectionné
+  // Déclaration d'une variable pour le produit à modifier (optionnel)
+  currentProductId: number | null = null;
 
   constructor(
     private accessService: AdminAuthGuard,
@@ -48,8 +47,26 @@ export class AdminComponent implements OnInit{
       this.router.navigate(['/login']);
     }
     this.loadCategories();
+    this.loadProductDataIfEditing();
   }
 
+   // Si on édite un produit, on charge ses données dans le formulaire
+   loadProductDataIfEditing() {
+    if (this.currentProductId) {
+      this.ProductService.get(this.currentProductId).subscribe({
+        next: (product) => {
+          this.product_name = product.product_name;
+          this.latin_name = product.latin_name;
+          this.description = product.description;
+          this.plant_section = product.plant_section;
+          this.family = product.family;
+          this.image_path = product.image_path;
+          this.category_ids = product.category_ids;
+        },
+        error: (err) => console.error('Erreur lors du chargement du produit', err)
+      });
+    }
+  }
 
   addProduct() {
       const newProduct: Product = {
@@ -62,20 +79,49 @@ export class AdminComponent implements OnInit{
       category_ids: this.selectedCategories, // Envoie un tableau d'IDs de catégories
     };
 
-    this.ProductService.create(newProduct).subscribe({
-      next: (res) => {
-        console.log('Produit créé avec succès', res);
-        alert('Produit créé avec succès !');
-        this.resetForm();
-
-      },
-
-      error: (err) => {
-        console.error('Erreur lors de la création du produit :', err);
-        alert('Erreur lors de la création du produit');
-      },
-    });
+    if (this.currentProductId) {
+      // Mise à jour du produit existant
+      this.ProductService.update(newProduct, this.currentProductId).subscribe({
+        next: (res) => {
+          console.log('Produit mis à jour avec succès', res);
+          alert('Produit mis à jour avec succès !');
+          this.resetForm();
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour du produit :', err);
+          alert('Erreur lors de la mise à jour du produit');
+        },
+      });
+    } else {
+      // Création d'un nouveau produit
+      this.ProductService.create(newProduct).subscribe({
+        next: (res) => {
+          console.log('Produit créé avec succès', res);
+          alert('Produit créé avec succès !');
+          this.resetForm();
+        },
+        error: (err) => {
+          console.error('Erreur lors de la création du produit :', err);
+          alert('Erreur lors de la création du produit');
+        },
+      });
+    }
   }
+
+    // Supprimer un produit
+    deleteProduct(id: number) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
+        this.ProductService.deleteProduct(id).subscribe({
+          next: () => {
+            alert('Produit supprimé avec succès !');
+            this.resetForm();
+          },
+          error: (err) => {
+            console.error('Erreur lors de la suppression du produit :', err);
+          },
+        });
+      }
+    }
 
   addCategory() {
     if (!this.newCategoryName.trim() || !this.newCategoryDescription.trim()) {
@@ -101,54 +147,6 @@ export class AdminComponent implements OnInit{
       },
     });
   }
-
-    // Méthode pour charger toutes les catégories
-  loadCategories() {
-    this.categoryService.getAllCategories().subscribe({
-      next: (data) => {
-        this.categories = this.buildCategoryTree(data);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la récupération des catégories :', err);
-      },
-    });
-  }
-
-  buildCategoryTree(categories: any[], level: number = 0) {
-    let categoryMap = new Map();
-    let rootCategories: any[] = [];
-  
-    // Étape 1: Construire un mappage des catégories
-    categories.forEach(cat => {
-      categoryMap.set(cat.id, { ...cat, children: [], level: level });
-    });
-  
-    // Étape 2: Organiser les catégories en hiérarchie (parent -> enfants)
-    categories.forEach(cat => {
-      if (cat.parent_id) {
-        categoryMap.get(cat.parent_id)?.children.push(categoryMap.get(cat.id));
-      } else {
-        rootCategories.push(categoryMap.get(cat.id));
-      }
-    });
-  
-    return rootCategories;
-  }
-
-  // Supprimer une catégorie
-deleteCategory(id: number) {
-  if (confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')) {
-    this.categoryService.deleteCategory(id).subscribe({
-      next: () => {
-        alert('Catégorie supprimée avec succès !');
-        this.loadCategories();
-      },
-      error: (err) => {
-        console.error('Erreur lors de la suppression de la catégorie :', err);
-      },
-    });
-  }
-}
 
 // Modifier une catégorie
 updateCategory(category: Category) {
@@ -177,7 +175,54 @@ updateCategory(category: Category) {
     });
   }
 }
-  resetForm() {
+
+// Supprimer une catégorie
+deleteCategory(id: number) {
+  if (confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')) {
+    this.categoryService.deleteCategory(id).subscribe({
+      next: () => {
+        alert('Catégorie supprimée avec succès !');
+        this.loadCategories();
+      },
+      error: (err) => {
+        console.error('Erreur lors de la suppression de la catégorie :', err);
+      },
+    });
+  }
+}
+
+    // Méthode pour charger toutes les catégories
+  loadCategories() {
+    this.categoryService.getAllCategories().subscribe({
+      next: (data) => {
+        this.categories = this.buildCategoryTree(data);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des catégories :', err);
+      },
+    });
+  }
+
+  buildCategoryTree(categories: any[], level: number = 0) {
+    let categoryMap = new Map();
+    let rootCategories: any[] = [];
+  
+    categories.forEach((cat) => {
+      categoryMap.set(cat.id, { ...cat, children: [], level: level });
+    });
+
+    categories.forEach((cat) => {
+      if (cat.parent_id) {
+        categoryMap.get(cat.parent_id)?.children.push(categoryMap.get(cat.id));
+      } else {
+        rootCategories.push(categoryMap.get(cat.id));
+      }
+    });
+
+    return rootCategories;
+  }
+
+    resetForm() {
     this.product_name = '';
     this.latin_name = '';
     this.description = '';
